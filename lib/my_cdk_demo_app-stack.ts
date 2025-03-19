@@ -1,5 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
-import { Bucket, CfnBucket } from 'aws-cdk-lib/aws-s3';
+import { Bucket, CfnBucket, EventType } from 'aws-cdk-lib/aws-s3';
+import { SqsDestination } from 'aws-cdk-lib/aws-s3-notifications';
+import { Queue } from 'aws-cdk-lib/aws-sqs';
 import { Construct } from 'constructs';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
@@ -15,8 +17,14 @@ export class MyCdkDemoAppStack extends cdk.Stack {
     }); 
 
     const level2S3bucket = new Bucket(this, 'MyFirstLevel2ConstructBucket', {
-      bucketName: 'MyFirstLevel2ConstructBucketForRealWJJ',
+      bucketName: 'myfirstlevel2constructbucketforrealwjj',
       versioned: true
     });
+
+    const queue = new Queue(this, 'MyQueue', {
+      queueName: 'MyQueue',
+    });
+
+    level2S3bucket.addEventNotification(EventType.OBJECT_CREATED, new SqsDestination(queue))
   }
 }

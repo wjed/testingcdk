@@ -28,3 +28,4 @@ export class MyCdkDemoAppStack extends cdk.Stack {
     level2S3bucket.addEventNotification(EventType.OBJECT_CREATED, new SqsDestination(queue))
   }
 }
+// and i'm destroying the whole deployment gg
